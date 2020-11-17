@@ -85,22 +85,12 @@ const stateMachine = {
                         .copy()
                         .mult(-1)
                         .add(reference)
-                        .mult(1.1*G)
+                        .mult(12*G)
                     return "start"
                 }
             }
         ]
     }
-}
-
-function setup() {
-    createCanvas(770, 770)
-
-    addBody(
-        new Body(40000, 30),
-        createVector(width/2, height/2),
-        createVector(0, 0)
-    )
 }
 
 function addBody(body, position, velocity) {
@@ -111,14 +101,9 @@ function addBody(body, position, velocity) {
         body: body,
         position: position,
         velocity: velocity,
+        history: [], // TODO: linked list
     }
     bodies.push(body)
-}
-
-function draw() {
-    background(0)
-    fill(0,0,200)
-    tick()
 }
 
 function tick() {
@@ -142,21 +127,37 @@ function tick() {
 }
 
 function drawBody(body) {
-    const s = universe[body.id]
+    const { position, history } = universe[body.id]
     const r = body.radius
-    ellipse(s.position.x, s.position.y, r*2, r*2)
-    push()
-    translate(s.position)
-    textSize(16)
-    fill(0, 255, 255)
-    text(`${Math.round(body.mass)}`, -r + 5, 5)
-    pop()
+    noStroke()
+    fill(0, 100, 255)
+    ellipse(position.x, position.y, r*2, r*2)
+
+    // stroke(200)
+    // fill(255)
+    // for (let i=1; i<history.length; i++) {
+    //     const prev = history[i-1]
+    //     const curr = history[i]
+    //     line(prev.x, prev.y, curr.x, curr.y)
+    // }
+
+    // noStroke()
+    // push()
+    // translate(position)
+    // textSize(16)
+    // fill(0, 0, 180)
+    // text(`${Math.round(body.mass)}`, -r + 5, 5)  // TODO: 10, 100, 1K, 500K, 2.4M, 5G, etc...
+    // pop()
 }
 
 function updateBody(body) {
-    const { position, velocity } = universe[body.id]
+    const { position, velocity, history } = universe[body.id]
     const { mass, radius } = body
 
+    history.push(position)
+    if (history.length > 100) {
+        history.shift()
+    }
 
     let F = createVector(0, 0)
     const m = mass
@@ -197,7 +198,7 @@ function selectedBody(reference) {
 }
 
 function createBody(reference) {
-    const body = new Body(20, 10)
+    const body = new Body(20, 1.5)
     addBody(body, reference, createVector(0, 0))
     return body
 }
@@ -224,3 +225,20 @@ const argmin = xs => xs
     .map((x, i) => [x, i])
     .reduce((acc, curr) => curr[0] < acc[0] ? curr : acc)
     [1]
+
+function setup() {
+    createCanvas(770, 770)
+
+    addBody(
+        new Body(4e5, 30),
+        createVector(width/2, height/2),
+        createVector(0, 0)
+    )
+}
+
+function draw() {
+    // background(0)
+    fill(0, 8)
+    rect(0, 0, width, height)
+    tick()
+}

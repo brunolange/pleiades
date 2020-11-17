@@ -1,4 +1,10 @@
 const G = 0.0001
+const TOPOLOGY = Object.freeze({
+    TORUS: 1,
+    MOEBIUS_X: 2,
+    MOEBIUS_Y: 3,
+    MOEBIUS_XY: 4,
+})
 
 class Body {
     constructor(mass, radius) {
@@ -8,7 +14,9 @@ class Body {
     }
 }
 
-let universe = {}
+let universe = {
+    topology: TOPOLOGY.MOEBIUS_XY,
+}
 let bodies = []
 
 let state = {
@@ -183,10 +191,19 @@ function updateBody(body) {
     position.add(velocity)
 
     const {x, y} = position
+    const { topology } = universe
     if (x < 0) position.x = width
     if (x > width) position.x = 0
+    if ((x < 0 || x > width) && (topology == TOPOLOGY.MOEBIUS_X || topology == TOPOLOGY.MOEBIUS_XY)) {
+        position.y = height - position.y
+        velocity.reflect(createVector(0, 1))
+    }
     if (y < 0) position.y = height
     if (y > height) position.y = 0
+    if ((y < 0 || y > height) && (topology == TOPOLOGY.MOEBIUS_Y || topology == TOPOLOGY.MOEBIUS_XY)) {
+        position.x = width - position.x
+        velocity.reflect(createVector(1, 0))
+    }
 }
 
 function selectedBody(reference) {

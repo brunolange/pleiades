@@ -1,4 +1,4 @@
-const G = 0.0001
+const G = 0.000005
 const TOPOLOGY = Object.freeze({
     TORUS: 1,
     MOEBIUS_X: 2,
@@ -93,7 +93,7 @@ const stateMachine = {
                         .copy()
                         .mult(-1)
                         .add(reference)
-                        .mult(12*G)
+                        .mult(250*G)
                     return "start"
                 }
             }
@@ -138,7 +138,9 @@ function drawBody(body) {
     const { position, history } = universe[body.id]
     const r = body.radius
     noStroke()
-    fill(0, 100, 255)
+    // fill(0)
+    // ellipse(position.x, position.y, r*2, r*2)
+    fill(0, 100, 255, 200)
     ellipse(position.x, position.y, r*2, r*2)
 
     // stroke(200)
@@ -215,7 +217,7 @@ function selectedBody(reference) {
 }
 
 function createBody(reference) {
-    const body = new Body(20, 1.5)
+    const body = new Body(1e6/1e3, 20/1e1)
     addBody(body, reference, createVector(0, 0))
     return body
 }
@@ -226,8 +228,8 @@ function pumpBody(body) {
     body.radius += dr
     const r = body.radius
     const ro = body.density
-    // body.mass += ro*4/3*Math.PI*(3*r**2*dr + 3*r*dr**2 + dr**3)
-    body.mass += 4*Math.PI*ro*r**2 * dr
+    body.mass += ro*4/3*Math.PI*(3*r**2*dr + 3*r*dr**2 + dr**3)
+    // body.mass += 4*Math.PI*ro*r**2 * dr
 }
 
 function closestBody(reference) {
@@ -247,7 +249,7 @@ function setup() {
     createCanvas(770, 770)
 
     addBody(
-        new Body(4e5, 30),
+        new Body(1e6, 20),
         createVector(width/2, height/2),
         createVector(0, 0)
     )

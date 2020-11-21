@@ -7,10 +7,10 @@ const universe = new Universe()
 
 const sketch = (p5: P5) => {
 
-    const drawBody = (body: Body, position: MyPosition) => {
+    const drawBody = (body: Body, position: MyPosition, color: Color) => {
         const radius = body.radius
         p5.noStroke()
-        p5.fill("blue")
+        p5.fill(color)
         p5.ellipse(position.x, position.y, radius*2, radius*2)
     }
 
@@ -19,7 +19,8 @@ const sketch = (p5: P5) => {
         universe.addBody(
             new Body(1000, 20),
             p5.createVector(p5.width/2, p5.height/2),
-            p5.createVector(0, 0)
+            p5.createVector(0, 0),
+            p5.color("blue")
         )
     }
 
@@ -28,9 +29,19 @@ const sketch = (p5: P5) => {
         p5.rect(0, 0, p5.width, p5.height)
         for (let body of universe.bodies) {
             const position = universe.position(body)
-            drawBody(body, position)
+            const color = universe.color(body)
+            drawBody(body, position, color)
         }
         universe.tick()
+
+        if (p5.frameCount == 80) {
+            universe.addBody(
+                new Body(10, 7),
+                p5.createVector(p5.width/2, p5.height/4),
+                p5.createVector(-1, 0),
+                p5.color("blue")
+            )
+        }
     }
 }
 

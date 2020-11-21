@@ -6,5 +6,3 @@ export type Volume = number
 export type Density = number
 export type MyPosition = Vector
 export type Velocity = Vector
-
-export type BodyId = number

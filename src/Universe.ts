@@ -1,4 +1,5 @@
 import Body from "./body"
+import StateMachine from "./StateMachine"
 
 import {
     BodyId,
@@ -9,13 +10,13 @@ import {
 class Universe {
 
     bodies: Array<Body>
-    position_map: Map<BodyId, Array<MyPosition>>
-    velocity_map: Map<BodyId, Velocity>
+    positionMap: Map<BodyId, Array<MyPosition>>
+    velocityMap: Map<BodyId, Velocity>
 
     constructor() {
         this.bodies = []
-        this.position_map = new Map<BodyId, MyPosition[]>()
-        this.velocity_map = new Map<BodyId, Velocity>()
+        this.positionMap = new Map<BodyId, MyPosition[]>()
+        this.velocityMap = new Map<BodyId, Velocity>()
     }
 
     addBody(body: Body, position: MyPosition, velocity: Velocity) {
@@ -25,22 +26,26 @@ class Universe {
         body.id = bodyId
 
         this.bodies.push(body)
-        this.position_map.set(bodyId, [position])
-        this.velocity_map.set(bodyId, velocity)
+        this.positionMap.set(bodyId, [position])
+        this.velocityMap.set(bodyId, velocity)
     }
 
     position(body: Body) {
-        const positions = this.position_map.get(body.id)
+        const positions = this.positionMap.get(body.id)
         return positions[positions.length - 1]
+    }
+
+    velocity(body: Body) {
+        return this.velocityMap.get(body.id)
     }
 
     tick() {
         this.bodies.forEach(body => {
-            const position = this.position_map.get(body.id);
-            const velocity = this.position_map.get(body.id);
-            //
+            const position = this.position(body)
+            const velocity = this.velocity(body)
+            position.add(velocity)
         })
     }
 }
 
-export default Universe;
+export default Universe

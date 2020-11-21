@@ -22,7 +22,7 @@ class Universe {
 
     constructor(p5: P5) {
         this.constants = {
-            G: 1
+            G: 0.18
         }
         this.bodies = []
         this.positionMap = new Map<Body, MyPosition[]>()

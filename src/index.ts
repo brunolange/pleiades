@@ -15,7 +15,7 @@ const sketch = (p5: P5) => {
     }
 
     p5.setup = () => {
-        const canvas = p5.createCanvas(770, 770)
+        p5.createCanvas(770, 770)
         universe.addBody(
             new Body(1000, 20),
             p5.createVector(p5.width/2, p5.height/2),
@@ -36,16 +36,16 @@ const sketch = (p5: P5) => {
 
         if (p5.frameCount == 80) {
             universe.addBody(
-                new Body(10, 7),
+                new Body(25, 7),
                 p5.createVector(p5.width/2, p5.height/4),
-                p5.createVector(-1, 0),
-                p5.color("blue")
+                p5.createVector(-0.45, 0),
+                p5.color("yellow")
             )
             universe.addBody(
-                new Body(10, 7),
+                new Body(25, 7),
                 p5.createVector(p5.width/2, 3*p5.height/4),
-                p5.createVector(1, 0),
-                p5.color("blue")
+                p5.createVector(0.45, 0),
+                p5.color("red")
             )
         }
     }

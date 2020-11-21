@@ -3,11 +3,11 @@ import Body from "./Body"
 import * as P5 from "p5";
 import { MyPosition } from "./types"
 
-const universe = new Universe()
-
 const sketch = (p5: P5) => {
 
-    const drawBody = (body: Body, position: MyPosition, color: Color) => {
+    const universe = new Universe(p5)
+
+    const drawBody = (body: Body, position: MyPosition, color: P5.Color) => {
         const radius = body.radius
         p5.noStroke()
         p5.fill(color)
@@ -39,6 +39,12 @@ const sketch = (p5: P5) => {
                 new Body(10, 7),
                 p5.createVector(p5.width/2, p5.height/4),
                 p5.createVector(-1, 0),
+                p5.color("blue")
+            )
+            universe.addBody(
+                new Body(10, 7),
+                p5.createVector(p5.width/2, 3*p5.height/4),
+                p5.createVector(1, 0),
                 p5.color("blue")
             )
         }

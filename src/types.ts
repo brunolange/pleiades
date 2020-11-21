@@ -6,3 +6,7 @@ export type Volume = number
 export type Density = number
 export type MyPosition = Vector
 export type Velocity = Vector
+export type Force = Vector
+export type Constants = {
+    G: number
+}

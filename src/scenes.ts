@@ -70,6 +70,30 @@ export const scenes = (p5: P5): Scenes => {
                 }
             ],
         },
+        gargantua: {
+            topology: Topology.go_on,
+            G: 6.67408e-11,
+            mpp: 1e17, // meters per pixel
+            ticks: 2e4,
+            bodies: [
+                {
+                    mass: 100e6 * Sun.mass,
+                    radius: 425 * Sun.radius,
+                    r: 30,
+                    position: [width/2, height/2],
+                    velocity: [0, 0],
+                    color: "black",
+                },
+                {
+                    mass: Sun.mass,
+                    radius: Sun.radius,
+                    r: 3,
+                    position: [42, height/2],
+                    velocity: [0, 2e-5],
+                    color: "yellow",
+                }
+            ]
+        },
         three_is_a_party: {
             topology: Topology.go_on,
             G: 1e2,

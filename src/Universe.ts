@@ -8,27 +8,25 @@ import {
     MyPosition,
     Force,
     Velocity,
-    Constants,
+    UniverseConfig
 } from "./types"
 
 class Universe {
 
-    constants: Constants
-
+    config: UniverseConfig
     bodies: Array<Body>
     positionMap: Map<Body, Array<MyPosition>>
     velocityMap: Map<Body, Velocity>
     colorMap: Map<Body, Color>
     p5: P5
 
-    constructor(p5: P5, constants: Constants) {
-        this.constants = constants
-
+    constructor(p5: P5, config: UniverseConfig) {
+        this.p5 = p5
+        this.config = config
         this.bodies = []
         this.positionMap = new Map<Body, MyPosition[]>()
         this.velocityMap = new Map<Body, Velocity>()
         this.colorMap = new Map<Body, Color>()
-        this.p5 = p5
     }
 
     addBody(body: Body, position: MyPosition, velocity: Velocity, color: Color) {
@@ -52,7 +50,7 @@ class Universe {
     }
 
     updateBody(body: Body) {
-        const { G, mpp } = this.constants
+        const { G, mpp } = this.config
         const m1 = body.mass
         const r1 = body.radius
         const p1 = this.position(body)

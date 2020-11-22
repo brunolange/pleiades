@@ -9,11 +9,15 @@ const SCENE = "three_is_a_party"
 const sketch = (p5: P5) => {
 
     let universe: Universe
+    let ticks: number
 
-    const loadScene = (name: string): Universe => {
+    const loadScene = (name: string): [Universe, number] => {
         const allScenes = scenes(p5)
         const scene = allScenes[name]
-        const universe = new Universe(p5, scene.universe)
+        const universe = new Universe(p5, {
+            G: scene.G,
+            mpp: scene.mpp,
+        })
 
         scene.bodies.forEach(specs => {
             universe.addBody(
@@ -24,7 +28,7 @@ const sketch = (p5: P5) => {
             )
         })
 
-        return universe
+        return [universe, scene.ticks]
     }
 
     const drawBody = (body: Body, position: MyPosition, color: P5.Color) => {
@@ -37,7 +41,9 @@ const sketch = (p5: P5) => {
     p5.setup = () => {
         p5.createCanvas(770, 770)
 
-        universe = loadScene(SCENE)
+        const [u, t] = loadScene(SCENE)
+        universe = u
+        ticks = t
     }
 
     let frameRate = -1
@@ -58,7 +64,7 @@ const sketch = (p5: P5) => {
         p5.fill(255)
         p5.text(Math.round(frameRate).toString(), 7, 17)
 
-        for (let i=0; i<universe.constants.ticks; i++) {
+        for (let i=0; i<ticks; i++) {
             universe.tick()
         }
     }

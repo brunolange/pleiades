@@ -17,7 +17,9 @@ type BodySpec = {
 }
 
 type Scene = {
-    universe: Constants,
+    mpp: number,
+    ticks: number,
+    G: number,
     bodies: Array<BodySpec>
 }
 
@@ -33,11 +35,9 @@ export const scenes = (p5: P5): Scenes => {
     const AU = height/2 - marginTop
     return {
         a_solar_system: {
-            universe: {
-                G: 6.67408e-11,
-                mpp: 1e13, // meters per pixel
-                ticks: 1e4
-            },
+            G: 6.67408e-11,
+            mpp: 1e13, // meters per pixel
+            ticks: 1e4,
             bodies: [
                 {
                     ...Sun,
@@ -70,11 +70,9 @@ export const scenes = (p5: P5): Scenes => {
             ],
         },
         three_is_a_party: {
-            universe: {
-                G: 1e2,
-                mpp: 1,
-                ticks: 1,
-            },
+            G: 1e2,
+            mpp: 1,
+            ticks: 1,
             bodies: [
                 {
                     mass: 1,

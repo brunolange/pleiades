@@ -15,6 +15,7 @@ const sketch = (p5: P5) => {
         const allScenes = scenes(p5)
         const scene = allScenes[name]
         const universe = new Universe(p5, {
+            topology: scene.topology,
             G: scene.G,
             mpp: scene.mpp,
         })

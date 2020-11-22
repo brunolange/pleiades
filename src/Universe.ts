@@ -7,7 +7,8 @@ import {
     MyPosition,
     Force,
     Velocity,
-    UniverseConfig
+    UniverseConfig,
+    Topology
 } from "./types"
 
 class Universe {
@@ -73,6 +74,25 @@ class Universe {
         const v = this.velocity(body)
         v.add(F.mult(1/m1))
         p1.add(v)
+
+        const topology = this.config.topology
+        if (topology == Topology.go_on) return
+
+        const {x, y} = p1
+        const {width, height} = this.p5
+        if (x < 0) p1.x = width
+        if (x > width) p1.x = 0
+        if (y < 0) p1.y = height
+        if (y > height) p1.y = 0
+
+        if ((x < 0 || x > width) && (topology == Topology.moebius_x || topology == Topology.moebius_xy)) {
+            p1.y = height - p1.y
+            v.y = -v.y
+        }
+        if ((y < 0 || y > height) && (topology == Topology.moebius_y || topology == Topology.moebius_xy)) {
+            p1.x = width - p1.x
+            v.x = -v.x
+        }
     }
 
     tick() {

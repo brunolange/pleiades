@@ -5,7 +5,7 @@ import {
     Mercury,
     Venus,
 } from "./bodies"
-import { Constants } from "./types";
+import { Topology } from "./types";
 
 type BodySpec = {
     mass: number,
@@ -17,9 +17,10 @@ type BodySpec = {
 }
 
 type Scene = {
+    topology: Topology,
+    G: number,
     mpp: number,
     ticks: number,
-    G: number,
     bodies: Array<BodySpec>
 }
 
@@ -34,6 +35,7 @@ export const scenes = (p5: P5): Scenes => {
     const AU = height/2 - marginTop
     return {
         a_solar_system: {
+            topology: Topology.go_on,
             G: 6.67408e-11,
             mpp: 1e13, // meters per pixel
             ticks: 1e4,
@@ -69,6 +71,7 @@ export const scenes = (p5: P5): Scenes => {
             ],
         },
         three_is_a_party: {
+            topology: Topology.moebius_x,
             G: 1e2,
             mpp: 1,
             ticks: 1,
@@ -100,6 +103,7 @@ export const scenes = (p5: P5): Scenes => {
             ]
         },
         dance: {
+            topology: Topology.moebius_xy,
             G: 1,
             mpp: 1,
             ticks: 10,
@@ -135,6 +139,22 @@ export const scenes = (p5: P5): Scenes => {
                     position: [width/2 - 200, height/2 + 120],
                     velocity: [0.02, 0.02],
                     color: "red",
+                }
+            ]
+        },
+        test: {
+            topology: Topology.torus,
+            G: 1,
+            mpp: 1,
+            ticks: 1,
+            bodies: [
+                {
+                    mass: 1,
+                    radius: 1,
+                    r: 7,
+                    position: [width/2, height/2],
+                    velocity: [1, -2],
+                    color: "orange",
                 }
             ]
         }

@@ -2,16 +2,26 @@ import Universe from "./Universe"
 import Body from "./Body"
 import * as P5 from "p5";
 import { MyPosition } from "./types"
+import { scenes } from "./scenes"
 
-const Sun = new Body(1.989e30, 20)
-const Earth = new Body(5.972e24, 3)
-const Venus = new Body(4.867e24, 3)
-const Mercury = new Body(4.867e24, 3)
-// const Moon = new Body(7.348e22, 1)
+const SCENE = "a_solar_system"
 
 const sketch = (p5: P5) => {
 
     const universe = new Universe(p5)
+
+    const loadScene = (name: string) => {
+        const allScenes = scenes(p5)
+        const scene = allScenes[name]
+        scene.forEach(specs => {
+            universe.addBody(
+                new Body(specs.mass, specs.r),
+                p5.createVector.apply(null, specs.position),
+                p5.createVector.apply(null, specs.velocity),
+                p5.color(specs.color),
+            )
+        })
+    }
 
     const drawBody = (body: Body, position: MyPosition, color: P5.Color) => {
         const radius = body.radius
@@ -23,33 +33,7 @@ const sketch = (p5: P5) => {
     p5.setup = () => {
         p5.createCanvas(770, 770)
 
-        const marginTop = 10
-        const au = p5.height/2 - marginTop
-
-        universe.addBody(
-            Earth,
-            p5.createVector(p5.width/2, marginTop),
-            p5.createVector(-4.2e-5, 0),
-            p5.color("blue")
-        )
-        universe.addBody(
-            Venus,
-            p5.createVector(p5.width/2, marginTop + (1 - 0.723)*au),
-            p5.createVector(-5e-5, 0),
-            p5.color("orange")
-        )
-        universe.addBody(
-            Mercury,
-            p5.createVector(p5.width/2, marginTop + (1 - .387)*au),
-            p5.createVector(-7e-5, 0),
-            p5.color("gray")
-        )
-        universe.addBody(
-            Sun,
-            p5.createVector(p5.width/2, p5.height/2),
-            p5.createVector(0, 0),
-            p5.color("yellow")
-        )
+        loadScene(SCENE)
     }
 
     let frameRate = -1

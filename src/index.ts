@@ -4,16 +4,18 @@ import * as P5 from "p5";
 import { MyPosition } from "./types"
 import { scenes } from "./scenes"
 
-const SCENE = "a_solar_system"
+const SCENE = "three_is_a_party"
 
 const sketch = (p5: P5) => {
 
-    const universe = new Universe(p5)
+    let universe: Universe
 
-    const loadScene = (name: string) => {
+    const loadScene = (name: string): Universe => {
         const allScenes = scenes(p5)
         const scene = allScenes[name]
-        scene.forEach(specs => {
+        const universe = new Universe(p5, scene.universe)
+
+        scene.bodies.forEach(specs => {
             universe.addBody(
                 new Body(specs.mass, specs.r),
                 p5.createVector.apply(null, specs.position),
@@ -21,6 +23,8 @@ const sketch = (p5: P5) => {
                 p5.color(specs.color),
             )
         })
+
+        return universe
     }
 
     const drawBody = (body: Body, position: MyPosition, color: P5.Color) => {
@@ -33,7 +37,7 @@ const sketch = (p5: P5) => {
     p5.setup = () => {
         p5.createCanvas(770, 770)
 
-        loadScene(SCENE)
+        universe = loadScene(SCENE)
     }
 
     let frameRate = -1
@@ -54,7 +58,7 @@ const sketch = (p5: P5) => {
         p5.fill(255)
         p5.text(Math.round(frameRate).toString(), 7, 17)
 
-        for (let i=0; i<1e4; i++) {
+        for (let i=0; i<universe.constants.ticks; i++) {
             universe.tick()
         }
     }

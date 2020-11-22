@@ -9,6 +9,6 @@ export type Velocity = Vector
 export type Force = Vector
 export type Constants = {
     G: number
-    AU: number
+    mpp: number // meters per pixel
+    ticks: number
 }
-export type MpP = number // meters per pixel

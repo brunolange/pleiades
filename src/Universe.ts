@@ -21,23 +21,14 @@ class Universe {
     colorMap: Map<Body, Color>
     p5: P5
 
-    mpp: MpP
-
-    constructor(p5: P5) {
-        this.constants = {
-            G: 6.67408e-11,
-            AU: 148e9,
-        }
+    constructor(p5: P5, constants: Constants) {
+        this.constants = constants
 
         this.bodies = []
         this.positionMap = new Map<Body, MyPosition[]>()
         this.velocityMap = new Map<Body, Velocity>()
         this.colorMap = new Map<Body, Color>()
         this.p5 = p5
-
-        this.mpp = 1e13 // meters per pixel
-        // this.mpp = this.constants.AU/(p5.height/2 - 10) // meters per pixel
-        // this.mpp = 384_400_000/(p5.height/2 - 10) // meters per pixel
     }
 
     addBody(body: Body, position: MyPosition, velocity: Velocity, color: Color) {
@@ -61,7 +52,7 @@ class Universe {
     }
 
     updateBody(body: Body) {
-        const { G } = this.constants
+        const { G, mpp } = this.constants
         const m1 = body.mass
         const r1 = body.radius
         const p1 = this.position(body)
@@ -74,7 +65,7 @@ class Universe {
             const m2 = other_body.mass
 
             const d_hat = p2.copy().sub(p1)
-            const d = d_hat.mag() * this.mpp
+            const d = d_hat.mag() * mpp
 
             if (d < r1 + r2) continue
 

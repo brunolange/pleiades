@@ -64,7 +64,9 @@ const sketch = (p5: P5) => {
             drawBody(body, position, color)
         }
 
-        if (frameRate == -1 || p5.frameCount % 60 == 0) frameRate = p5.frameRate()
+        if (frameRate == -1 || p5.frameCount % 10 == 0) frameRate = p5.frameRate()
+        p5.fill(0)
+        p5.rect(0, 0, 27, 27)
         p5.fill(255)
         p5.text(Math.round(frameRate).toString(), 7, 17)
 

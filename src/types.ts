@@ -7,8 +7,7 @@ export type Density = number
 export type MyPosition = Vector
 export type Velocity = Vector
 export type Force = Vector
-export type Constants = {
+export type UniverseConfig = {
     G: number
     mpp: number // meters per pixel
-    ticks: number
 }

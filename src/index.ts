@@ -4,7 +4,7 @@ import * as P5 from "p5";
 import { MyPosition } from "./types"
 import { scenes } from "./scenes"
 
-const SCENE = "three_is_a_party"
+const SCENE = "dance"
 
 const sketch = (p5: P5) => {
 

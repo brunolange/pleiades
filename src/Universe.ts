@@ -4,7 +4,6 @@ import * as P5 from "p5";
 import Body from "./body"
 
 import {
-    MpP,
     MyPosition,
     Force,
     Velocity,

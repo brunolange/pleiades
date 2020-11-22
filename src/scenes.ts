@@ -27,7 +27,6 @@ type Scenes = {
     [key: string]: Scene
 }
 
-
 export const scenes = (p5: P5): Scenes => {
     const width = p5.width
     const height = p5.height
@@ -97,6 +96,45 @@ export const scenes = (p5: P5): Scenes => {
                     position: [width/2, height/2 + 150],
                     velocity: [-0.5, 0],
                     color: "green",
+                }
+            ]
+        },
+        dance: {
+            G: 1,
+            mpp: 1,
+            ticks: 10,
+            bodies: [
+                {
+                    mass: 1,
+                    radius: 1,
+                    r: 7,
+                    position: [width/2 - 220, height/2 - 150],
+                    velocity: [.03, 0],
+                    color: "orange",
+                },
+                {
+                    mass: 1,
+                    radius: 1,
+                    r: 5,
+                    position: [width/2 - 220, height/2],
+                    velocity: [0, 0],
+                    color: "blue",
+                },
+                {
+                    mass: 1,
+                    radius: 1,
+                    r: 4,
+                    position: [width/2 - 220, height/2 + 90],
+                    velocity: [0.04, 0],
+                    color: "green",
+                },
+                {
+                    mass: 1,
+                    radius: 1,
+                    r: 4,
+                    position: [width/2 - 200, height/2 + 120],
+                    velocity: [0.02, 0.02],
+                    color: "red",
                 }
             ]
         }

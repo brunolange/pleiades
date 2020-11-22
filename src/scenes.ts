@@ -71,7 +71,7 @@ export const scenes = (p5: P5): Scenes => {
             ],
         },
         three_is_a_party: {
-            topology: Topology.moebius_x,
+            topology: Topology.go_on,
             G: 1e2,
             mpp: 1,
             ticks: 1,

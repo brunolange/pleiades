@@ -13,7 +13,7 @@ type BodySpec = {
     r: number,
     position: [number, number],
     velocity: [number, number],
-    color: string,
+    color: string | p5.Color,
 }
 
 type Scene = {
@@ -33,6 +33,7 @@ export const scenes = (p5: P5): Scenes => {
     const height = p5.height
     const marginTop = 10
     const AU = height/2 - marginTop
+
     return {
         a_solar_system: {
             topology: Topology.go_on,
@@ -130,21 +131,29 @@ export const scenes = (p5: P5): Scenes => {
             topology: Topology.moebius_xy,
             G: 1,
             mpp: 1,
-            ticks: 10,
+            ticks: 4,
             bodies: [
                 {
                     mass: 1,
                     radius: 1,
-                    r: 7,
-                    position: [width/2 - 220, height/2 - 150],
-                    velocity: [.03, 0],
+                    r: 4,
+                    position: [40, 20],
+                    velocity: [.05, 0],
                     color: "orange",
                 },
                 {
                     mass: 1,
                     radius: 1,
-                    r: 5,
-                    position: [width/2 - 220, height/2],
+                    r: 4,
+                    position: [40, 40],
+                    velocity: [.05, 0],
+                    color: "purple",
+                },
+                {
+                    mass: 1,
+                    radius: 1,
+                    r: 4,
+                    position: [40, 60],
                     velocity: [0, 0],
                     color: "blue",
                 },
@@ -152,8 +161,8 @@ export const scenes = (p5: P5): Scenes => {
                     mass: 1,
                     radius: 1,
                     r: 4,
-                    position: [width/2 - 220, height/2 + 90],
-                    velocity: [0.04, 0],
+                    position: [40, 90],
+                    velocity: [0.07, 0],
                     color: "green",
                 },
                 {
@@ -161,7 +170,7 @@ export const scenes = (p5: P5): Scenes => {
                     radius: 1,
                     r: 4,
                     position: [width/2 - 200, height/2 + 120],
-                    velocity: [0.02, 0.02],
+                    velocity: [0.03, -0.03],
                     color: "red",
                 }
             ]
@@ -181,6 +190,57 @@ export const scenes = (p5: P5): Scenes => {
                     color: "orange",
                 }
             ]
+        },
+        random: {
+            topology: Topology.torus,
+            G: 1,
+            mpp: 1,
+            ticks: 2,
+            bodies: [...Array(24)].map(_ => {
+                let [m, x, y, u, v, r, g, b, a] = [
+                    [1, 8],
+                    [3*width/8, 5*width/8],
+                    [3*height/8, 5*height/8],
+                    [-0.35, 0.35],
+                    [-0.35, 0.35],
+                    [0, 255],
+                    [0, 255],
+                    [0, 255],
+                    [200, 255],
+                ].map(limits => {
+                    const [min, max] = limits
+                    return p5.random(min, max)
+                })
+
+                if (x > width/2 && y < height/2) {
+                    u = Math.abs(u)
+                    v = -Math.abs(v)
+                }
+
+                if (x < width/2 && y < height/2) {
+                    u = - Math.abs(u)
+                    v = -Math.abs(v)
+                }
+
+                if (x < width/2 && y > height/2) {
+                    u = - Math.abs(u)
+                    v = Math.abs(v)
+                }
+
+                if (x > width/2 && y > height/2) {
+                    u = Math.abs(u)
+                    v = Math.abs(v)
+                }
+
+                return {
+                    mass: 2,
+                    radius: 1,
+                    r: 4,
+                    position: [x, y],
+                    velocity: [u, v],
+                    color: p5.color(r, g, b, a)
+                }
+            })
         }
     }
 }

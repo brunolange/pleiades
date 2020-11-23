@@ -4,7 +4,7 @@ import * as P5 from "p5";
 import { MyPosition } from "./types"
 import { scenes } from "./scenes"
 
-const SCENE = "gargantua"
+const SCENE = "dance"
 
 const sketch = (p5: P5) => {
 
@@ -25,7 +25,7 @@ const sketch = (p5: P5) => {
                 new Body(specs.mass, specs.r),
                 p5.createVector.apply(null, specs.position),
                 p5.createVector.apply(null, specs.velocity),
-                p5.color(specs.color),
+                typeof specs.color == "string" ? p5.color(specs.color) : specs.color
             )
         })
 

@@ -13,7 +13,7 @@ type BodySpec = {
     r: number,
     position: [number, number],
     velocity: [number, number],
-    color: string | p5.Color,
+    color: string | P5.Color,
 }
 
 type Scene = {
